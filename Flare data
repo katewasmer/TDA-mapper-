@@ -1,0 +1,8 @@
+Noise1 <- cbind(runif(200, -30,30), runif(200, 5,6))
+Noise2 <- cbind(runif(200, -6,30), runif(200, -6,-5))
+Noise3 <- cbind(runif(200, -6,-5), runif(200, -20,20))
+Noise4<- cbind(runif(200, 5,6), runif(200, -20,20))
+Noise5<- cbind(runif(200, -6,6), runif(200, -6,6))
+
+flares <- rbind(Noise1, Noise2, Noise3, Noise4, Noise5)
+plot(flares, asp=1)
