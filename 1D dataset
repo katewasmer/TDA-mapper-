@@ -1,0 +1,7 @@
+#1D dataset consisting of a line with slope of 1
+
+set.seed(20)
+x <- runif(10)
+mydata <- data.frame(x,x)
+
+plot(mydata, asp = 1)
