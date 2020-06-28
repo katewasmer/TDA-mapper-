@@ -1,0 +1,40 @@
+#The dataset for a 3D cone (saved under Data3D.R
+
+set.seed(20)
+
+cone <- function(x, y){
+  sqrt(x^2+y^2)
+}
+x <- runif(2500, -1, 1)
+y <- runif(2500, -1, 1)
+z <- cone(x,y)
+
+data <- data.frame(x, y, z)
+data
+
+if (!require(package = "scatterplot3d")){install.packages(pkgs = "scatterplot3d")}
+scatterplot3d(data, asp = 2)
+
+#Calculating the PCA lines for the 3D cone (saved under Data3DPCA.R
+
+pca <- prcomp(data)
+
+plot$points3d(x = c(0, 1.25*pca$rotation[1,1]), y = c(0, 1.25*pca$rotation[2,1]), z = c(0, 1.25*pca$rotation[3,1]), type = "l", col = "red", lwd = 2)
+plot$points3d(x = c(0, pca$rotation[1,2]), y = c(0, pca$rotation[2,2]), z = c(0, pca$rotation[3,2]), type = "l", col = "red", lwd = 2)
+plot$points3d(x = c(0, 2*pca$rotation[1,3]), y = c(0, 2*pca$rotation[2,3]), z = c(0, 2*pca$rotation[3,3]), type = "l", col = "red", lwd = 2)
+
+#Projection of cone on the x and y axes 
+
+data.pca <- prcomp(data) 
+PCA1 <- (as.matrix(data) %*% data.pca$rotation)[,1]
+PCA2 <- (as.matrix(data) %*% data.pca$rotation)[,2]
+PCA3 <- (as.matrix(data) %*% data.pca$rotation)[,3]
+
+data.pca12 <- cbind(PCA1, PCA2)
+plot(data.pca12, asp = 1)
+
+#Projection of cone on the x and z axes (more holistic projection of the cone)
+
+data.pca13 <- cbind(PCA1, PCA3)
+plot(data.pca13, asp = 1)
+
