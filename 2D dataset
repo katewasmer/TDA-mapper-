@@ -1,0 +1,33 @@
+#2D dataset with 30 points and some variation from the 1D dataset 
+set.seed(20)
+
+x <- runif(30)
+noise <- runif(30, min = -.07, max = .07)
+y <- x + noise
+data <- data.frame(x,y)
+plot(data, asp = 1.25, xlim = c(-.25, 1), ylim = c(-.25, 1))
+
+#Find the PCA lines for the dataset, color coded in red and blue 
+pca <- prcomp(data)
+pca
+
+b <- c(0, pca$rotation[2,1])
+a <- c(0, pca$rotation[1,1])
+mod <- lm(b ~ a)
+abline(mod, lw = 2, col = "blue")
+
+d <- c(0, pca$rotation[2,2])
+c <- c(0, pca$rotation[1,2])
+mod1 <- lm(d ~ c)
+abline(mod1, lw = 2, col = "red")
+
+#Rotation of the dataset performed with PCA functions 
+pca <- prcomp(mydata)
+
+PCA1 <- (as.matrix(mydata) %*% mydata.pca$rotation)[,1]
+PCA2 <- (as.matrix(mydata) %*% mydata.pca$rotation)[,2]
+
+data.pca12 <- cbind(PCA1,PCA2)
+plot(data.pca12, asp = 1)
+
+abline(h = 0, col = "blue", lw = 2)
