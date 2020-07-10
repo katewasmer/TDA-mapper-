@@ -1,0 +1,28 @@
+- Class: meta
+  Course: Introduction to TDA Mapper and its Applications
+  Lesson: test lesson
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.4
+
+- Class: figure
+  Output: Notice that there is a color gradient going across the X1-axis. 
+  Figure: pcaflareA.R
+  FigureType: new  
+  
+- Class: figure
+  Output: You could also create a color gradient going across the X2-axis, as shown in the figure on the right. 
+  Figure: pcaflareB.R
+  FigureType: new  
+
+#use ggplot to color the data BEFORE rotating!!!
+- Class: figure
+  Output: Like the previous examples, when we perform our PCA on this flare data set, it will rotate like this. 
+  Figure: PCArotation.R
+  FigureType: new
+  
+- Class: figure
+  Output: How do we perform this rotation? 
+  Figure: pcaflareA.R
+  FigureType: new 
