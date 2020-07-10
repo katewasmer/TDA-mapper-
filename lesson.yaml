@@ -275,13 +275,35 @@
   AnswerTests: omnitest(correctExpr='library("viridis")')
   Hint: Did you remember to use the library() function? 
   
-- Class: text
-  Output: Great! Now we're ready to add color to our data. 
-  
 #need data frame before plotting 
-  
 - Class: text
   Output: There are many things that you can do with ggplot and Viridis related to TDA mapper. 
+  
+- Class: text
+  Output: Before anything else, ggplot2 requires the use of a data frame. 
+
+- Class: cmd_question
+  Output: To do this, create a variable called flares1 and let it equal data.frame(flares). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='flares1 <- data.frame(flares)')
+  Hint: Did you remember to name your variable flares1? 
+  
+#plot the data first 
+
+- Class: cmd_question
+  Output: Rename the pca variable as prcomp(flares1). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='pca <- prcomp(flares1)')
+  Hint: Did you remember to perform the prcomp() function on flares1?
+  
+- Class: text
+  Output: Now, we want to find the slopes of the orthogonal PCA lines. 
+  
+- Class: cmd_question
+  Output: Create a variable called m. Let it equal (pca$rotation[2,1]/pca$rotation[1,1]).
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='m <- (pca$rotation[2,1]/pca$rotation[1,1])')
+  Hint: Did you remember to name your variable m?
   
 - Class: figure
   Output: In the Viridis package, there are many different color pallettes that you can use to distinguish your data. Here is one example you can use. 
@@ -308,25 +330,6 @@
   Output: How do we perform this rotation? 
   Figure: pcaflareA.R
   FigureType: new 
-  
-#teach students how to rotate the flare data 
-- Class: text
-  Output: In ggplot, data frames are essential. Therefore, we want to create a data frame from the flare data. 
-  
-- Class: cmd_question
-  Output: Create a variable called flares1 and set it equal to data.frame(flares)
-  CorrectAnswer: EXPR 
-  AnswerTests: omnitest(correctExpr='flares1 <- data.frame(flares)')
-  Hint: Did you remember to name your variable flares1? 
-  
-- Class: cmd_question
-  Output: Now rename the pca variable to prcomp(flares1). 
-  CorrectAnswer: EXPR
-  AnswerTests: omnitest(correctExpr='pca <- prcomp(flares1)')
-  Hint: Did you remember to perform the prcomp() function on flares1?
-  
-- Class: text
-  Output: Now that we have the PCA with the appropriate data frame, we can create the rotation needed. 
   
 - Class: text
   Output: Congratulations! You have performed a PCA on the flare data set.
