@@ -1,0 +1,38 @@
+#abridged version of my PCA lesson 
+#explains the bug in my code 
+
+- Class: figure
+  Output: Your objective is to perform a PCA on the figure shown to the right. You will be guided through every step.
+  Figure: TDAflarecode.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Create a variable called 'pca' and let it equal prcomp(flares). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='pca <- prcomp(flares)')
+  Hint: Did you remember to name your variable pca? 
+  
+- Class: cmd_question
+  Output: Create a variable named x and set it equal to c(0, pca$rotation[1,1]). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='x <- c(0, pca$rotation[1,1])')
+  Hint: Did you remember to name your variable x? 
+  
+- Class: cmd_question
+  Output: Create a variable called y and set it equal to c(0, pca$rotation[2,1])
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='y <- c(0, pca$rotation[2,1])')
+  Hint: Did you remember to name your variable y?
+  
+- Class: cmd_question
+  Output: To combine the directions from these vectors to obtain a diagnonal line, create a variable called mod. Set it equal to lm(y ~ x). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='mod <- lm(y ~ x)')
+  Hint: Did you remember to put y before x? 
+ 
+#Here is where the bug happens. When I demoed the lesson, there were 2 blue lines rather than 1.  
+- Class: cmd_question
+  Output: After creating this linear model, we can plot the line. Using the abline function, type abline(mod, lw = 2, col = "blue"). You will see a line that crosses through both the zero vector and the vector for PC1. 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='abline(mod, lw = 2, col = "blue")')
+  Hint: Did you remember to use the abline function? If you are confused, type ?abline for more information on what this function entails. 
