@@ -126,8 +126,8 @@
   FigureType: new 
   
 - Class: text
-  Output: Much better! Now we have a more relevant image, with the cone being rotated upside down.
-
+  Output: Much better! Now we have a more relevant image that reflects the shape of the cone. 
+  
 - Class: text
   Output: How was I able to find the PCA lines and transform the figures? Let's do an example of our own. 
 
@@ -189,11 +189,11 @@
   AnswerTests: omnitest(correctExpr='mod <- lm(y ~ x)')
   Hint: Did you remember to put y before x? 
 
-#figure out bug here 
+#figure out bug here - report bug on swirl website 
 - Class: cmd_question
   Output: After creating this linear model, we can plot the line. Using the abline function, type abline(mod, lw = 2, col = "blue"). You will see a line that crosses through both the zero vector and the vector for PC1. 
   CorrectAnswer: EXPR 
-  AnswerTests: omnitest(correctExpr='abline(mod, col = "blue")')
+  AnswerTests: omnitest(correctExpr='abline(mod, lw = 2, col = "blue")')
   Hint: Did you remember to use the abline function? If you are confused, type ?abline for more information on what this function entails. 
   
 - Class: text
@@ -275,9 +275,7 @@
   AnswerTests: omnitest(correctExpr='library("viridis")')
   Hint: Did you remember to use the library() function? 
   
-#need data frame before plotting 
-- Class: text
-  Output: There are many things that you can do with ggplot and Viridis related to TDA mapper. 
+#need data frame before plotting
   
 - Class: text
   Output: Before anything else, ggplot2 requires the use of a data frame. 
@@ -305,31 +303,103 @@
   AnswerTests: omnitest(correctExpr='m <- (pca$rotation[2,1]/pca$rotation[1,1])')
   Hint: Did you remember to name your variable m?
   
-- Class: figure
-  Output: In the Viridis package, there are many different color pallettes that you can use to distinguish your data. Here is one example you can use. 
-  Figure: pcaflareA.R
-  FigureType: new  
+- Class: cmd_question
+  Output: Now create a variable called n. Let it equal (pca$rotation[2,2]/pca$rotation[1,2])
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='n <- (pca$rotation[2,2]/pca$rotation[1,2])')
+  Hint: Did you remember to name your variable n? 
   
-- Class: figure
-  Output: Notice that there is a color gradient going across the X1-axis. 
-  Figure: pcaflareA.R
-  FigureType: new  
+- Class: text
+  Output: Plotting a figure in ggplot2 is more difficult, but it can be done with a more elaborate code. 
   
-- Class: figure
-  Output: You could also create a color gradient going across the X2-axis, as shown in the figure on the right. 
-  Figure: pcaflareB.R
-  FigureType: new  
+- Class: text
+  Output: Our colored flare data will follow a gradient along the X1 axis. 
+  
+- Class: text
+  Output: With Viridis, you can choose multiple color palletes. For this exercise, we will choose a blue-green-purple scheme. 
+  
+- Class: cmd_question
+  Output: With this information in mind, create a variable called plot. Set it equal to the following; ggplot(flares1, aes(X1,X2)) + geom_point(aes(color = X1)) + scale_color_viridis(option = "D") + coord_fixed()
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='plot <- ggplot(flares1, aes(X1,X2)) + geom_point(aes(color = X1)) + scale_color_viridis(option = "D") + coord_fixed()')
+  Hint: Did you remember to add together the ggplot(), geom_point(), scale_color_viridis() and coord_fixed() functions?
+  
+- Class: text
+  Output: Next, we want to add the PCA1 and PCA2 lines to our plot. 
+  
+- Class: text
+  Output: We can use the geom_abline() function to do this in ggplot2. 
+  
+- Class: cmd_question
+  Output: To do this, type the following; plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)')
+  Hint: Did you remember to add the plot variable to the equation? 
+  
+- Class: text
+  Output: Now we have our flare with a color gradient. 
 
 #use ggplot to color the data BEFORE rotating!!!
-- Class: figure
-  Output: Like the previous examples, when we perform our PCA on this flare data set, it will rotate like this. 
-  Figure: PCArotation.R
-  FigureType: new
+- Class: text
+  Output: Like the previous examples, when we perform our PCA on this flare data set, it will rotate. 
   
-- Class: figure
+- Class: text
   Output: How do we perform this rotation? 
-  Figure: pcaflareA.R
-  FigureType: new 
+  
+#Explain how to perform rotation 
+- Class: text
+  Output: We need to utilize both the PCA1 and PCA2 lines to rotate. 
+  
+- Class: cmd_question
+  Output: Create a variable called PCA1 and let it equal the following; (as.matrix(flares1) %*% pca$rotation)[,1]
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA1 <- (as.matrix(flares1) %*% pca$rotation)[,1]')
+  Hint: Did you remember to rotate the flares1 data? 
+  
+- Class: cmd_question
+  Output: Now create a variable called PCA2 and let it equal (as.matrix(flares1) %*% pca$rotation[,2])
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA2 <- (as.matrix(flares1) %*% pca$rotation[,2]'))
+  Hint: Did you remember to extract the second column, [,2]?
+  
+- Class: text
+  Output: We need to bind the 2 variables to get a single variable. 
+  
+- Class: cmd_question
+  Output: To do this, create a variable called PCA12 and let it equal cbind(PCA1, PCA2). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='PCA12 <- cbind(PCA1, PCA2)')
+  Hint: Did you remember to use the cbind() function? 
+  
+- Class: text
+  Output: Recall that we need to convert our data into a data frame. 
+  
+- Class: cmd_question
+  Output: Update our PCA12 variable and set it equal to data.frame(PCA12). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA12 <- data.frame(PCA12)')
+  Hint: Did you remember to name the PCA12 variable data.frame(PCA12)? 
+  
+- Class: text
+  Output: We can plot the rotated flare dataset the same way we did with the previous set. 
+  
+- Class: text
+  Output: This time, however, we will use a color gradient along the PCA1 axis. 
+  
+- Class: cmd_question
+  Output: To do this, create a variable called rotated_plot. Let it equal the following; ggplot(PCA12, aes(PCA1,PCA2)) + geom_point(aes(color = PCA1)) + scale_color_viridis(option = "D") + coord_fixed()
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='rotated_plot <- ggplot(PCA12, aes(PCA1,PCA2)) + geom_point(aes(color = PCA1)) + scale_color_viridis(option = "D") + coord_fixed()')
+  Hint: Did you remember to name your variable rotated_plot? 
+  
+- Class: text
+  Output: We also want to plot the PCA1 and PCA2 lines to compare them to the rotated flare. 
+  
+- Class: cmd_question
+  Output: To plot our data, type the following; rotated_plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='rotated_plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)')
+  Hint: Did you remember to add the geom_abline() function to the rotated plot? 
   
 - Class: text
   Output: Congratulations! You have performed a PCA on the flare data set.
@@ -345,6 +415,3 @@
   
 - Class: text
   Output: Hopefully this lesson gave you a better understanding of data analysis and PCA. 
-
-
-
